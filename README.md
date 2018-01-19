@@ -1,6 +1,6 @@
 # Skymail
 
-###Send email via static HTML forms.
+### Send email via static HTML forms.
 
 Making use of [Skygear](https://skygear.io) Cloud Function to send form data to emails from static website (with simple HTML page templates)
 
