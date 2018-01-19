@@ -1,0 +1,125 @@
+<html>
+  <head>
+    <title>Skymail - Send Email from Static Website</title>
+    <!--Skygear CDN-->
+    <script src="https://code.skygear.io/js/skygear/1.1.0/skygear.min.js"></script>
+    <!-- OG metadata -->
+    <meta property="og:title" content="Skymail - Send Email from Static Website" />
+    <meta property="og:description" content="Skygear Cloud Function to send form data to emails from static website" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://skygear-demo.github.io/skymail" />
+    <meta property="og:image" content="" />
+    <!-- End of OG metadata -->
+
+    <style type="text/css">
+      html, body {font-family: "courier new",Lato, Arial, sans-serif;}
+      #response { display:none; padding: 5px; text-align: center;}
+      .success { background-color: green;}
+      .error { background-color: red;}
+      form#emailForm { line-height: 1.5em; margin: auto; width: 320px;}
+      button { padding: 10px 20px; background-color: #5C97BF; color: #fff; border: none; font-size: 16px; margin: 20px auto; width: 300px; cursor: pointer;border-radius: 5px;}
+      input,textarea {min-width: 300px; line-height: 24px; margin-bottom: 10px;padding:8px;}
+      button:focus,
+      textarea:focus,
+      input:focus {
+        outline: none;
+      }
+      .logo {color: #2C3E50;}
+
+      @media (max-width:428px){
+        form#emailForm {width: 90%;}
+        button,input,textarea {width: 100%;}
+      }
+    </style>
+  </head>
+  <body>
+    <a href="https://github.com/skygear-demo/skymail"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+    <div id="response">
+      <span id="response-msg"></span><br>
+      <button id="back-button">Back</button>
+    </div>
+    <form id="emailForm">
+      <h2 class="logo">SkyMail</h2>
+      <p>When you submit the form, data will be sent via gmail to your email. See this project on <a href="https://github.com/skygear-demo/skymail">GitHub</a></p>
+      <label for="name">Name</label>
+      <br>
+      <input type="text" name="name" id="receiver" placeholder="Peter N"><br />
+
+      <label for="emailAddress">Email Address</label>
+      <br>
+      <input type="email" name="email" id="email" placeholder="To whom?"><br />
+
+      <label for="subject">Subject</label>
+      <br>
+      <input type="text" name="name" id="subject" placeholder="Subject" value="Hello from Skymail"><br />
+
+      <label for="message">Message</label>
+      <br>
+      <textarea name="message" id="message" rows="5" cols="10" placeholder="Your message">This is a demo from Skymail.
+It's an open source project - fork it from https://github.com/skygear-demo/skymail
+      </textarea><br />
+
+      <!-- Google recaptcha: remove these lines if your don't need recaptcha -->
+      <div class="g-recaptcha" data-sitekey="6Lf_5jQUAAAAAIYmWAhkpA5Dx82Mh2RhFKsk95Uy"></div>
+      <script src='https://www.google.com/recaptcha/api.js' async defer></script>
+      <!-- End of Google recaptcha -->
+      <button type="submit" id="send-button">Send</button>
+    </form>
+
+    <!--Skygear configuration-->
+    <!--The app end point and the api key can be found in the developer portal-->
+    <script>
+
+      // UPDATE the endpoint here
+      skygear.config({
+        'endPoint': 'https://mailtest.skygeario.com/', // trailing slash is required
+        'apiKey': '33eac6fee30349d29e51cb673a958e71',
+      }).then(() => {
+        console.clear();
+        console.log('skygear container is now ready for making API calls.');
+      }, (error) => {
+        console.error(error);
+      });
+
+      var emailEl= document.getElementById('email');
+      var receiverEl= document.getElementById('receiver');
+      var subjectEl= document.getElementById('subject');
+      var messageEl= document.getElementById('message');
+      var responseEl= document.getElementById('response');
+      var responseMsgEl= document.getElementById('response-msg');
+
+      document.getElementById('emailForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var captcha = (typeof grecaptcha !== 'undefined')? grecaptcha.getResponse() : "";
+
+        if (email.value == '') {
+          if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+          responseMsgEl.innerHTML = "No email given.";
+          responseEl.style.display = "block";
+          return;
+        }
+        const params = {
+          'to_email': emailEl.value,
+          'subject': subjectEl.value,
+          'custom_message': messageEl.value,
+          'grecaptcha': captcha
+        };
+        skygear.lambda('send_invitation_email', params)
+          .then(response => {
+            console.log(response); // {'result': 'OK'}
+            // Handle response
+            if (response.result == "OK") {
+              responseMsgEl.innerHTML = "Sent!";
+              responseEl.style.display = "block";
+            } else {
+              responseMsgEl.innerHTML = "Email not sent!";
+              responseEl.style.display = "block";
+            }
+          });
+        if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
+      });
+
+    </script>
+  </body>
+</html>
