@@ -1,16 +1,16 @@
 # Skymail
 
-### Send email via static HTML forms.
+### Adaptor to send email via static HTML forms - via Gmail or other mailing services.
 
 Making use of [Skygear](https://skygear.io) Cloud Function to send form data to emails from static website (with simple HTML page templates)
 
 ## Demo
 
-[DEMO hosted at Skygear](https://mailtest.skygeario.com/static)
+[DEMO](https://mailtest.skygeario.com/static) - hosted at Skygear hosting
 
 In the demo example, we are using a default email account from Gmail: `margin.top.20px@gmail.com` to send testing mails. Which means: **Quota may exeed.**
 
-Desipte using the default settings works, You are advised to **fork and deploy your own version** on [Skygear](https://skygear.io), with custom email server settings (in [settings.py](settings.py))
+Desipte using the default settings works, You are advised to **fork and deploy your own version** on [Skygear](https://skygear.io), with custom email server settings (in [settings.py](settings.py)). See how to set up [here](#setup).
 
 ## Features
 
@@ -23,7 +23,8 @@ Desipte using the default settings works, You are advised to **fork and deploy y
 - Embed into your static site easily
 - Standalone and customizable static HTML page templates
 
-## Setting up a form - in 5 minutes
+## Setting up a form
+<a name="setup"></a>
 
 ### Prepare your SMTP server / service
 
@@ -46,11 +47,11 @@ Gmail is recommended for low volume usage; and Sendgrid is recommended if you se
 - Update the template UI as you wish
 - Update Skygear API Endpoint and API Key (in HTML files)
 - Deploy updated code to Skygear - using [Skycli](https://github.com/SkygearIO/skycli).
-- Try it out!
+- Try it out! Hosted at `/static/` of your app path.
 
 ## Custom Settings
 
-Please set up custom settings in [settings.py](settings.py).
+You can set up custom settings in [settings.py](settings.py).
 
 ### Turning off recaptcha (not recommended)
 
@@ -78,22 +79,21 @@ config = {
 }
 ```
 
-## Sample usages
+## Usage Examples
 
 - Subscription forms
-- "Send more information to my email"
+- Sign up for more information
 - Web app sign up confirmation
-- Auto welcome email
-- Receieve support requests
+- Auto welcome email (using cloud functions part without the form)
+- Receive support requests
 
-## Develop
-- Using Python 3.5. [Install](http://docs.python-guide.org/en/latest/starting/install3/osx/) if you haven't.
+## Develop (Cloud Functions)
+- Cloud function using Python 3.6. [Installation Guide](http://docs.python-guide.org/en/latest/starting/install3/osx/).
 - Initialize an virtual env for the first time. [Follow this guide.](http://docs.python-guide.org/en/latest/dev/virtualenvs/)
 
 ```python3 -m venv env```
 
 ```source env/bin/activate```
-
 
 Note: If there is error when running `pip install -r requirements.txt` on `Python3.6`, you may need to use `easy_install pyzmail` to install pyzmail instead.
 
@@ -105,4 +105,6 @@ Note: If there is error when running `pip install -r requirements.txt` on `Pytho
 Feel free to open any issue and PR. Contact at [hello+skymail@skygear.io](hello+skymail@skygear.io) or fill in the form [here]().
 
 ### About Skygear
-Skygear is an open-source backend for apps. You can write plugins to enrich your application. Skymail is a perfect example to demostrate the use of cloud functions.
+[Skygear](https://skygear.io) is an open-source backend for apps. You can write plugins to enrich your application. Skymail is a perfect example to demostrate the use of cloud functions.
+
+Besides sending emails, Skygear is suitable for writing simple or even database-connected cloud functions.
