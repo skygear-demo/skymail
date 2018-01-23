@@ -8,9 +8,14 @@ Making use of [Skygear](https://skygear.io) Cloud Function to send form data to 
 
 [DEMO](https://mailtest.skygeario.com/static) - hosted at Skygear hosting
 
+![Customizable](https://user-images.githubusercontent.com/1916493/35263379-7df5ce6c-0053-11e8-863b-8c9e21338ed0.png)
+
+
 In the demo example, we are using a default email account from Gmail: `margin.top.20px@gmail.com` to send testing mails. Which means: **Quota may exeed.**
 
 Desipte using the default settings works, You are advised to **fork and deploy your own version** on [Skygear](https://skygear.io), with custom email server settings (in [settings.py](settings.py)). See how to set up [here](#setup).
+
+You can also custoimize the adaptor as you wish.
 
 ## Features
 
